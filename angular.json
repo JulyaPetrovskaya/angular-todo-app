@@ -35,7 +35,8 @@
               "@fortawesome/fontawesome-free/css/all.css",
               "src/styles/index.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "baseHref": "/angular-todo-app/"
           },
           "configurations": {
             "production": {
