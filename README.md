@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 📝 Angular Todo App
 
 A simple and responsive todo list application built with Angular 15.  
@@ -21,5 +20,3 @@ All tasks are stored in local storage, so they persist between sessions.
 - TypeScript
 - HTML & SCSS
 =======
-# angular-todo
->>>>>>> e35afdd6b5ed01884e0333378791fccc752d9926
