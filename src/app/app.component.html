@@ -1,52 +1,42 @@
 <div class="todoapp">
   <h1 class="todoapp__title">todos</h1>
 
+  {{ title.errors | json }}
+
   <div class="todoapp__content">
     <header class="todoapp__header">
-      <button
-        type="button"
-        class="todoapp__toggle-all active"
-      >      
-      </button>
+      <button type="button" class="todoapp__toggle-all active"></button>
 
-      <form>
+      <form (ngSubmit)="addTodo()" [formGroup]="todoForm">
         <input
           type="text"
           class="todoapp__new-todo"
           placeholder="What needs to be done?"
+          name="title"
+          formControlName="title"
+          [style.backgroundColor]="title.errors && title.touched ? '#f88' : ''"
         />
       </form>
     </header>
 
     <section class="todoapp__main">
-      <div class="todo completed">
-        <label class="todo__status-label">
-          <input type="checkbox" class="todo__status" checked />
-        </label>
-
-        <span class="todo__title">Completed Todo</span>
-
-        <button class="todo__remove">x</button>
-
-         <div class="modal overlay">
-          <div class="modal-background has-background-white-ter"></div>
-          <div class="loader"></div>
-        </div>
-      </div>
+      <app-todo 
+        *ngFor="let todo of todos; let i = index"
+        [todo]="todo"
+        (delete)="todos.splice(i, 1)"
+      ></app-todo>
     </section>
 
-    <footer class="todoapp__footer" data-cy="Footer">
-      <span class="todo-count"></span>
+    <footer class="todoapp__footer">
+      <span class="todo-count"> {{ activeTodos.length }} items left </span>
+
       <nav class="filter" data-cy="Filter">
         <a href="#" class="filter__link selected">All</a>
         <a href="#/active" class="filter__link">Active</a>
-        <a href="#/completed" class="filter__link">Completed</a> 
+        <a href="#/completed" class="filter__link">Completed</a>
       </nav>
 
-      <button
-        type="button"
-        class="todoapp__clear-completed"
-      >
+      <button type="button" class="todoapp__clear-completed">
         Clear completed
       </button>
     </footer>
@@ -58,8 +48,6 @@
       <button class="delete"></button>
     </div>
 
-    <div class="message-body">
-      Unable to add a Todo
-    </div>
+    <div class="message-body">Unable to add a Todo</div>
   </article>
 </div>

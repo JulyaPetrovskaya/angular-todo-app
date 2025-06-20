@@ -1,13 +1,12 @@
 <div
   class="todo"
   [class.completed]="todo.completed"
->
+ >
   <label class="todo__status-label">
     <input
       type="checkbox"
       class="todo__status"
-      [checked]="todo.completed"
-      (change)="toggle.emit()"
+      [(ngModel)]="todo.completed"
     />
   </label>
 
@@ -29,7 +28,7 @@
       {{ todo.title }}
     </span>
 
-    <button
+    <button 
       class="todo__remove"
       (click)="delete.emit()"
     >
