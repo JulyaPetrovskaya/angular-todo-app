@@ -35,8 +35,8 @@
               "@fortawesome/fontawesome-free/css/all.css",
               "src/styles/index.scss"
             ],
-            "scripts": [],
-            "baseHref": "/angular-todo-app/"
+            "scripts": []
+            
           },
           "configurations": {
             "production": {
@@ -52,7 +52,8 @@
                   "maximumError": "4kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "baseHref": "/angular-todo-app/"
             },
             "development": {
               "buildOptimizer": false,
