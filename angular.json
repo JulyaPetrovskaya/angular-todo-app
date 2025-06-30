@@ -52,8 +52,7 @@
                   "maximumError": "4kb"
                 }
               ],
-              "outputHashing": "all",
-              "baseHref": "/angular-todo-app/"
+              "outputHashing": "all"
             },
             "development": {
               "buildOptimizer": false,
