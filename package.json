@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "build:gh": "ng build --configuration production --base-href=/angular-todo-app/",
-    "deploy": "npx angular-cli-ghpages --dir=dist/angular-todo-app"
+    "deploy": "npx angular-cli-ghpages --dir=dist/angular-todo"
   },
   "private": true,
   "dependencies": {
