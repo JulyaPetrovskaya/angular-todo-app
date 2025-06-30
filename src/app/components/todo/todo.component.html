@@ -6,7 +6,8 @@
     <input
       type="checkbox"
       class="todo__status"
-      [(ngModel)]="todo.completed"
+      [checked]="todo.completed"
+      (change)="toggle.emit()"
     />
   </label>
 
