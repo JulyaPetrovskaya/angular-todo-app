@@ -9,9 +9,9 @@ import { MessageService } from 'src/app/services/message.service';
 })
 export class MessageComponent implements OnInit, OnDestroy {
   @Input() title = 'Error'
-
-  message = '';
+  @Input() message = ''
   hidden = true;
+  
   destroy$$ = new Subject();
 
   constructor(

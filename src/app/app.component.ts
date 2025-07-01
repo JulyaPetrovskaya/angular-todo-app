@@ -9,10 +9,12 @@ import { TodosService } from './services/todos.service';
   styleUrls: ['./app.component.scss'],
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
+  
 export class AppComponent implements OnInit {
-  _todos: Todo[] = [];
+  private _todos: Todo[] = [];
   activeTodos: Todo[] = [];
-
+  errorMessage = '';
+  
   get todos() {
      // get — це геттер, тобто властивість,
      // яку ми читаємо як змінну, а не викликаємо як функцію
@@ -39,6 +41,15 @@ export class AppComponent implements OnInit {
     this.todosService.todos$
       .subscribe((todos) => {
         this.todos = todos;
+      });
+    
+    this.todosService.loadTodos()
+      .subscribe({
+        next() {},
+        error: () => {
+          this.errorMessage = 'Upload error';
+        },
+        complete() {},
       });
   }
   
@@ -67,7 +78,14 @@ export class AppComponent implements OnInit {
 
   addTodo(newTitle: string) {
     this.todosService.createTodo(newTitle)
-      .subscribe();
+      .subscribe({
+        next: () => {
+          this.errorMessage = '';
+        },
+        error: () => {
+          this.errorMessage = 'Failed to create todo';
+        },
+      });
   }
 
   renameTodo(todo: Todo, title: string) {

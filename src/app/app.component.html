@@ -37,12 +37,5 @@
     </footer>
   </div>
 
-  <article class="message is-danger message--hidden">
-    <div class="message-header">
-      <p>Error</p>
-      <button class="delete"></button>
-    </div>
-
-    <div class="message-body">Unable to add a Todo</div>
-  </article>
+  <app-message [message]="errorMessage"></app-message>
 </div>
