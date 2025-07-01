@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Todo } from './types/todo';
 import { TodosService } from './services/todos.service';
+import { MessageService } from './services/message.service';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ export class AppComponent implements OnInit {
   private _todos: Todo[] = [];
   activeTodos: Todo[] = [];
   errorMessage = '';
+  hidden = true;
   
   get todos() {
      // get — це геттер, тобто властивість,
@@ -34,7 +36,8 @@ export class AppComponent implements OnInit {
   }
 
   constructor(
-    private todosService: TodosService, 
+    private todosService: TodosService,
+    private messageService: MessageService,
   ) {}
   
   ngOnInit(): void {
@@ -45,11 +48,7 @@ export class AppComponent implements OnInit {
     
     this.todosService.loadTodos()
       .subscribe({
-        next() {},
-        error: () => {
-          this.errorMessage = 'Upload error';
-        },
-        complete() {},
+        error: () => this.messageService.showMessage('Unable to load todos'),
       });
   }
   
@@ -83,7 +82,8 @@ export class AppComponent implements OnInit {
           this.errorMessage = '';
         },
         error: () => {
-          this.errorMessage = 'Failed to create todo';
+          this.messageService.showMessage('Unable to add a Todo');
+          this.hidden = false;
         },
       });
   }
@@ -101,6 +101,14 @@ export class AppComponent implements OnInit {
 
   deleteTodo(todo: Todo) {
     this.todosService.deleteTodo(todo)
-      .subscribe();
+      .subscribe({
+        next: () => {
+          this.errorMessage = '';
+        },
+        error: () => {
+          this.messageService.showMessage('Unable to delite a Todo');
+          this.hidden = false;
+        }
+      });
   }
 }

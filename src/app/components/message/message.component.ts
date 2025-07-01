@@ -9,7 +9,7 @@ import { MessageService } from 'src/app/services/message.service';
 })
 export class MessageComponent implements OnInit, OnDestroy {
   @Input() title = 'Error'
-  @Input() message = ''
+  message = '';
   hidden = true;
   
   destroy$$ = new Subject();
@@ -28,8 +28,6 @@ export class MessageComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$$)
     )
       .subscribe(text => {
-        console.log(2);
-
         this.hidden = false;
         this.message = text;
       })
