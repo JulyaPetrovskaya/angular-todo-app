@@ -46,7 +46,7 @@ export class TodosPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.todosService.loadTodos()
+    this.todosService.getTodos()
       .subscribe({
         error: () => this.messageService.showMessage('Unable to load todos'),
       })

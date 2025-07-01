@@ -1,19 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Todo } from './types/todo';
-
-const todosFromServer = [
-  { id: 1, title: 'HTML + CSS', completed: true },
-  { id: 2, title: 'JS', completed: false },
-  { id: 3, title: 'React', completed: false },
-  { id: 4, title: 'Vue.js', completed: false },
-];
+import { TodosService } from './services/todos.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
   _todos: Todo[] = [];
@@ -37,12 +31,20 @@ export class AppComponent implements OnInit {
     // в яких todo.completed === false
   }
 
-  constructor() { }
+  constructor(
+    private todosService: TodosService, 
+  ) {}
   
   ngOnInit(): void {
-    this.todos = todosFromServer;
+    this.todosService.todos$
+      .subscribe((todos) => {
+        this.todos = todos;
+      });
   }
   
+  // tickedById(i: number, todo: Todo) {
+  // }
+
   todoForm = new FormGroup({
     title: new FormControl('', {
       nonNullable: true,
@@ -64,38 +66,23 @@ export class AppComponent implements OnInit {
   }
 
   addTodo(newTitle: string) {
-    // якщо title не порожній, то створюємо новий об'єкт Todo
-    const newTodo: Todo = {
-      id: Date.now(),
-      title: this.title.value as string,
-      completed: false,
-    };
-      // створюємо новий об'єкт Todo
-    this.todos = [
-      ...this.todos,
-      newTodo,
-    ];
+    this.todosService.createTodo(newTitle)
+      .subscribe();
   }
 
-  renameTodo(todoId: number, title: string) {
-    this.todos = this.todos.map((todo) => {
-      if (todo.id !== todoId) {
-        return todo;
-      }
-      return {...todo, title};
-    });
+  renameTodo(todo: Todo, title: string) {
+    this.todosService.updateTodo({...todo, title})
+      .subscribe();
+    
   }
 
-  toggleTodo(todoId: number) {
-    this.todos = this.todos.map((todo) => {
-      if (todo.id !== todoId) {
-        return todo;
-      }
-      return {...todo, completed: !todo.completed};
-    });
+  toggleTodo(todo: Todo) {
+    this.todosService.updateTodo({...todo, completed: !todo.completed})
+      .subscribe();
   }
 
-  deleteTodo(todoId: number) {
-    this.todos = this.todos.filter((todo) => todo.id !== todoId);
+  deleteTodo(todo: Todo) {
+    this.todosService.deleteTodo(todo)
+      .subscribe();
   }
 }
