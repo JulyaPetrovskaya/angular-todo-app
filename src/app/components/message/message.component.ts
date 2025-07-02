@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil, finalize } from 'rxjs';
 import { MessageService } from 'src/app/services/message.service';
 
 @Component({
@@ -18,18 +18,24 @@ export class MessageComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
   ) {}
 
-  ngOnDestroy(): void {
-    this.destroy$$.next(null);
-    this.destroy$$.complete();
-  }
-
   ngOnInit(): void {
+    console.log('1) ngOnInit спрацював');
     this.messageService.message$.pipe(
-      takeUntil(this.destroy$$)
+      takeUntil(this.destroy$$),
+      finalize(() => {
+        console.log('[message$] finalize → Потік завершено');
+      })
     )
       .subscribe(text => {
+        console.log(' 2) Отримали повідомлення:');
         this.hidden = false;
         this.message = text;
       })
+  }
+
+  ngOnDestroy(): void {
+    console.log(' 3) MessageComponent destroyed');
+    this.destroy$$.next(null);
+    this.destroy$$.complete();
   }
 }

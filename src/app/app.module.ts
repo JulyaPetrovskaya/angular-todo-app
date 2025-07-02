@@ -11,6 +11,7 @@ import { MessageComponent } from './components/message/message.component';
 import { TodosPageComponent } from './pages/todos-page/todos-page.component';
 import { RouterModule, Routes } from '@angular/router';
 import { FilterComponent } from './components/filter/filter.component';
+import { AppRoutingModule } from './app-routing.module';
 
 const routes: Routes = [
   {
@@ -33,7 +34,7 @@ const routes: Routes = [
     TodosPageComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserModule,    
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
